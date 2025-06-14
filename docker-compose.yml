@@ -1,0 +1,101 @@
+version: '3'
+services:
+
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - stock-net
+
+  kafka:
+    image: bitnami/kafka:latest
+    ports:
+    - "9092:9092"
+    - "29092:29092"
+    environment:
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:29092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:29092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:29092
+    networks:
+      - stock-net
+
+
+  producer:
+    build:
+      context: .
+      dockerfile: docker/producer/Dockerfile
+    volumes:
+      - .:/app
+    depends_on:
+      - kafka
+    networks:
+      - stock-net
+
+  consumer:
+    build:
+      context: .
+      dockerfile: docker/consumer/Dockerfile
+    volumes:
+      - .:/app
+    depends_on:
+      - kafka
+    networks:
+      - stock-net
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: docker/streamlit/Dockerfile
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./streamlit:/app 
+      - ./config.yaml:/app/config.yaml
+      - ./gcs-key.json:/app/gcs-key.json
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/gcs-key.json
+    command: streamlit run app.py
+    depends_on:
+      - producer
+      - consumer
+    networks:
+      - stock-net
+
+
+
+  airflow:
+    build:
+      context: .
+      dockerfile: docker/airflow/Dockerfile
+    container_name: airflow
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./model:/opt/airflow/model
+    environment:
+      - AIRFLOW__WEBSERVER__AUTH_BACKEND=airflow.contrib.auth.backends.password_auth
+      - _AIRFLOW_WWW_USER_USERNAME=airflow
+      - _AIRFLOW_WWW_USER_PASSWORD=airflow
+    command: >
+      bash -c "
+      airflow db init &&
+      airflow users create --username airflow --firstname Admin --lastname User --role Admin --email admin@example.com --password airflow &&
+      airflow webserver"
+    networks:
+      - stock-net
+
+networks:
+  stock-net:
+    driver: bridge

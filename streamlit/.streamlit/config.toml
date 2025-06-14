@@ -1,0 +1,29 @@
+[server]
+# Server Options
+runOnSave = true
+allowRunOnSave = true
+port = 8505
+headless = false
+
+[browser]
+# Browser Options  
+gatherUsageStats = false
+serverAddress = "localhost"
+serverPort = 8505
+
+[theme]
+# Theme Options
+primaryColor = "#00ADB5"
+backgroundColor = "#0E1117"
+secondaryBackgroundColor = "#1A1B26"
+textColor = "#E0E0E0"
+font = "monospace"
+
+[ui]
+# UI Options
+hideTopBar = false
+hideSidebarNav = false
+
+[logger]
+# Logger Options
+level = "info"
