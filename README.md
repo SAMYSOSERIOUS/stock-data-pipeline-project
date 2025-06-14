@@ -1,6 +1,6 @@
 # 📈 Stock Data Pipeline Project
 
-A comprehensive real-time stock data pipeline built with Apache Kafka, Apache Airflow, and Streamlit for data processing, analysis, and visualization.
+A comprehensive real-time stock data pipeline built with Apache Kafka, Apache , and Streamlit for data processing, analysis, and visualization.
 
 ## 🎯 Overview
 
@@ -81,9 +81,7 @@ POSTGRES_USER=stockdb_user
 POSTGRES_PASSWORD=your_secure_password
 POSTGRES_DB=stockdb
 
-# Airflow
-AIRFLOW__CORE__FERNET_KEY=your_fernet_key
-AIRFLOW__WEBSERVER__SECRET_KEY=your_secret_key
+
 
 # Google Cloud
 GOOGLE_APPLICATION_CREDENTIALS=secrets/gcs-key.json
@@ -116,14 +114,14 @@ docker-compose up kafka zookeeper postgres -d
 ### 5. Access Applications
 
 - **Streamlit Dashboard**: http://localhost:8501
-- **Airflow Web UI**: http://localhost:8080
+- ** Web UI**: http://localhost:8080
 - **Kafka UI**: http://localhost:9021 (if enabled)
 
 ## 📁 Project Structure
 
 ```
 stock-data-pipeline-project/
-├── 📁 airflow/                 # Apache Airflow DAGs and plugins
+├── 📁 /                 # Apache  DAGs and plugins
 │   ├── dags/
 │   │   ├── stock_data_dag.py   # Main ETL pipeline DAG
 │   │   └── news_data_dag.py    # News data collection DAG
@@ -149,7 +147,7 @@ stock-data-pipeline-project/
 │   ├── producer.py            # Kafka data producer
 │   └── consumer.py            # Kafka data consumer
 ├── 📁 docker/                 # Docker configurations
-│   └── airflow/               # Airflow Docker setup
+│   └── /               #  Docker setup
 ├── 📄 docker-compose.yml      # Docker services configuration
 ├── 📄 requirements.txt        # Python dependencies
 ├── 📄 config.yaml            # Application configuration
@@ -197,7 +195,7 @@ python scripts/seed_data.py
 ### Real-time Data Pipeline
 - **Multi-source data ingestion** from Alpha Vantage, Yahoo Finance, and news APIs
 - **Apache Kafka** for real-time data streaming
-- **Apache Airflow** for workflow orchestration and scheduling
+- **Apache ** for workflow orchestration and scheduling
 - **Automated data quality checks** and error handling
 
 ### Data Storage & Processing
@@ -253,7 +251,7 @@ gcs:
   credentials_path: "secrets/gcs-key.json"
 ```
 
-### Airflow DAGs Configuration
+###  DAGs Configuration
 
 The project includes several pre-configured DAGs:
 
@@ -285,7 +283,7 @@ All services include health check endpoints:
 ```bash
 # Check service health
 curl http://localhost:8501/health      # Streamlit
-curl http://localhost:8080/health      # Airflow
+curl http://localhost:8080/health      # 
 ```
 
 ### Logging
@@ -295,7 +293,7 @@ Structured logging is configured for all components:
 ```bash
 # View logs
 docker-compose logs -f streamlit
-docker-compose logs -f airflow-webserver
+docker-compose logs -f -webserver
 ```
 
 ### Metrics
@@ -352,7 +350,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **Apache Software Foundation** for Kafka and Airflow
+- **Apache Software Foundation** for Kafka and 
 - **Streamlit** for the amazing dashboard framework
 - **Alpha Vantage** and **Yahoo Finance** for stock data APIs
 - **Google Cloud Platform** for storage and compute services
