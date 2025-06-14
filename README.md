@@ -355,13 +355,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Alpha Vantage** and **Yahoo Finance** for stock data APIs
 - **Google Cloud Platform** for storage and compute services
 
-## 📞 Support
 
-For support and questions:
-- 📧 Email: your-email@example.com
-- 🐛 Issues: [GitHub Issues](https://github.com/your-username/stock-data-pipeline-project/issues)
-- 📚 Documentation: [Project Wiki](https://github.com/your-username/stock-data-pipeline-project/wiki)
-
----
 
 **Happy Trading! 📈💰**
