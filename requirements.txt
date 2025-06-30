@@ -17,3 +17,5 @@ altair
 plotly
 tqdm
 feedparser
+folium
+streamlit-folium
