@@ -107,11 +107,36 @@ docker-compose up kafka zookeeper postgres -d
 ```
 stock-data-pipeline-project/
 ├── data_collector/         # Data extraction modules
-├── model/                  # Data models and transformations
-├── gcs_uploader/           # Google Cloud Storage utilities
-├── streamlit/              # Streamlit dashboard
+│   ├── fetch_data.py
+├── gcs_loader/             # GCS symbol loader
+│   ├── load_symbols.py
+├── gcs_uploader/           # GCS upload utilities
+│   ├── upload.py
+├── model/                  # Model training, prediction, evaluation
+│   ├── train.py
+│   ├── predict.py
+│   ├── evaluate.py
+│   ├── train_all.py
+│   ├── predict_all.py
+│   ├── evaluate_all.py
 ├── my_kafka/               # Kafka producers and consumers
+│   ├── producer.py
+│   ├── consumer.py
+├── streamlit/              # Streamlit dashboard
+│   ├── Home.py             # Main dashboard app
+│   ├── show_python_path.py
+│   ├── style.py
+│   ├── utils.py
+│   ├── test_app.py
+│   ├── test_gcs.py
+│   ├── pages/              # Multi-page dashboard
+│   │   ├── 1_📊_Analysis.py
+│   │   ├── 2_📰_News.py
+│   │   └── 3_🌎_Geography.py
 ├── docker/                 # Docker configurations
+│   ├── producer/Dockerfile
+│   ├── consumer/Dockerfile
+│   └── streamlit/Dockerfile
 ├── docker-compose.yml      # Docker services configuration
 ├── requirements.txt        # Python dependencies
 ├── config.yaml             # Application configuration
@@ -126,9 +151,11 @@ stock-data-pipeline-project/
 pip install -r requirements-dev.txt
 pre-commit install
 python -m pytest tests/
-streamlit run streamlit/app.py
+# Start Streamlit for development
+cd streamlit
+streamlit run Home.py
 # Start Kafka locally (optional)
-cd my_kafka
+cd ../my_kafka
 python producer.py
 ```
 
